@@ -63,7 +63,7 @@ int main(int argc , char *argv[]) {
 			} else {
 
 				buffer[lrecv] = '\0';
-				printf("%s\n", buffer);
+				printf("%s \n", buffer);
 
 			}
 
@@ -84,11 +84,6 @@ int main(int argc , char *argv[]) {
 					if(send_err < 0){
 						perror("send");
 						return 1;
-					}
-
-					for(int i = 0; i < MSG_LEN; i++){
-						buffer[i] = 0;
-
 					}
 				}
 				
