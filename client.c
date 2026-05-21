@@ -53,6 +53,7 @@ int main(int argc , char *argv[]) {
 			/* Fait quelque chose */
 
 
+
 			ssize_t lrecv = recv(sd, &buffer, 32, 0);
 
 			if(lrecv == 0){
@@ -60,6 +61,7 @@ int main(int argc , char *argv[]) {
 			} else if(lrecv < 0){
 				perror("recv");
 			} else {
+
 				buffer[lrecv] = '\0';
 				printf("Message reçu: %s\n", buffer);
 
@@ -77,6 +79,14 @@ int main(int argc , char *argv[]) {
 				printf("Au revoir !\n");
 			} else {
 				/* Pas une commande -> on affiche le contenu du prompt */
+
+				ssize_t send_err = send(sd, &buffer, sizeof(buffer), 0);
+
+				if(send_err < 0){
+					perror("send");
+					return 1;
+				}
+
 				printf("Vous avez écrit : %s\n", buffer);
 			}
 		}
