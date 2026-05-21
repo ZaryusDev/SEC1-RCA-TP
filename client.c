@@ -15,19 +15,42 @@
 int main(int argc , char *argv[]) {
 
 	int sd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-
+    int sd_UDP_in = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	if(sd < 0){
 		perror("socket");
 		return 1;
 	}
 
-	printf("[CONSOLE] Socket crée\n");
+	printf("[CONSOLE] Socket TCP crée\n");
+
+	if(sd_UDP_in < 0){
+		perror("socket");
+		return 1;
+	}
+
+	printf("[CONSOLE] Socket UDP crée\n");
 
 	struct sockaddr_in addr;
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(4242);
 	addr.sin_addr.s_addr = inet_addr("169.254.61.46");
 
+	struct sockaddr_in addr_UDP;
+    addr_UDP.sin_family = AF_INET;
+    addr_UDP.sin_port = htons(5555);
+    addr_UDP.sin_addr.s_addr = INADDR_ANY;
+
+    int err = bind(sd, (struct sockaddr*)&addr, sizeof(addr));
+    if(err < 0){
+        perror("bind");
+        return 1;
+    }
+
+	int err_bind_UDP = bind(sd_UDP_in, (struct sockaddr*)&addr_UDP, sizeof(addr_UDP));
+    if(err_bind_UDP < 0){
+        perror("bind");
+        return 1;
+    }
 
 	int connect_err = connect(sd, (struct sockaddr*)&addr, sizeof(addr));
 
