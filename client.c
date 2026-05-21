@@ -106,12 +106,12 @@ int main(int argc , char *argv[]) {
 				char* ip_addr_mp;
 				char* msg_MP;
 				int etat_mp;
-				etat_mp = parse_mp(*buffer, *ip_addr_mp, *msg_MP);
+				etat_mp = parse_mp(buffer, ip_addr_mp, msg_MP);
 				if(etat_mp == -1){
-					printf("Erreur : %s", *msg_MP);
+					printf("Erreur : %s", msg_MP);
 				}
 				else if(etat_mp == 1){
-					printf("MP envoyé : %s", *msg_MP);
+					printf("MP envoyé : %s", msg_MP);
 				}
 				else{
 					/* Pas une commande -> on affiche le contenu du prompt */
