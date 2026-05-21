@@ -106,6 +106,11 @@ int main(int argc , char *argv[]) {
 				/* Commande pour quitter */
 				quit = 1;
 				printf("Au revoir !\n");
+
+				int shutdown_err = shutdown(sd, SHUT_RDWR);
+    			close(sd);
+    			close(sd_UDP_in);
+
 			}
 			else {
 				char* ip_addr_mp;
