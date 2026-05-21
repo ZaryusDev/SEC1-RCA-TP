@@ -63,7 +63,7 @@ int main(int argc , char *argv[]) {
 			} else {
 
 				buffer[lrecv] = '\0';
-				printf("Message reçu: %s\n", buffer);
+				printf("%s\n", buffer);
 
 			}
 
