@@ -47,12 +47,17 @@ int main(int argc , char *argv[]) {
         perror("bind");
         return 1;
     }
+	
+	printf("[CONSOLE] Bind TCP \n");
+
 
 	int err_bind_UDP = bind(sd_UDP_in, (struct sockaddr*)&addr_UDP, sizeof(addr_UDP));
     if(err_bind_UDP < 0){
         perror("bind");
         return 1;
     }
+
+	printf("[CONSOLE] Bind UDP passé\n");
 
 	int connect_err = connect(sd, (struct sockaddr*)&addr, sizeof(addr));
 
