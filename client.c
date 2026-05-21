@@ -6,11 +6,13 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include "parse_command.h"
 
 
 #define MSG_LEN 100         // taille max des messages autorisés
 #define IN_FILT "%[^\n]%*c" // filtre le prompt : récupère tout jusqu'au premier retour à la ligne
 #define CMD_QUIT "/q"       // commande du prompt pour quitter
+#define CMD_MP "/mp"		// commande pour envoyer un message privé
 
 int main(int argc , char *argv[]) {
 
@@ -77,7 +79,7 @@ int main(int argc , char *argv[]) {
 
 
 
-			ssize_t lrecv = recv(sd, &buffer, 32, 0);
+			ssize_t lrecv = recv(sd, &buffer, MSG_LEN, 0);
 
 			if(lrecv == 0){
 				printf("Client deconnecté\n");
@@ -99,16 +101,26 @@ int main(int argc , char *argv[]) {
 				/* Commande pour quitter */
 				quit = 1;
 				printf("Au revoir !\n");
-			} else {
-				/* Pas une commande -> on affiche le contenu du prompt */
-				ssize_t send_err = send(sd, &buffer, sizeof(buffer), 0);
-
-				if(send_err < 0){
-					perror("send");
-					return 1;
+			}
+			else {
+				char* ip_addr_mp, msg_MP;
+				int etat_mp;
+				etat_mp = parse_mp(&buffer, ip_addr_mp, msg_MP);
+				if(etat_mp == -1){
+					printf("Erreur : %s", msg_MP);
 				}
-				
+				else if(etat_mp == 1){
+					printf("MP envoyé : %s", msg_MP);
+				}
+				else{
+					/* Pas une commande -> on affiche le contenu du prompt */
+					ssize_t send_err = send(sd, &buffer, sizeof(buffer), 0);
 
+					if(send_err < 0){
+						perror("send");
+						return 1;
+					}
+				}
 			}
 		}
 	}
