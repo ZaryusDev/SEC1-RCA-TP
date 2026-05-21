@@ -58,7 +58,7 @@ int main(int argc , char *argv[]) {
 
 			}
 
-			
+			sleep(2);
 
 		} else { // thread parent
 			/* Lie le contenu du prompt */
