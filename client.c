@@ -44,9 +44,22 @@ int main(int argc , char *argv[]) {
 	while(!quit) {
 		if(pid==0) { // thread enfant
 			/* Fait quelque chose */
-			cnt ++;
-			printf("Compteur : %d\n", cnt);
-			sleep(2);
+
+
+			ssize_t lrecv = recv(sd, &buffer, 32, 0);
+
+			if(lrecv == 0){
+				printf("Client deconnecté\n");
+			} else if(lrecv < 0){
+				perror("recv");
+			} else {
+				buffer[lrecv] = '\0';
+				printf("Message reçu: %s\n", buffer);
+
+			}
+
+			
+
 		} else { // thread parent
 			/* Lie le contenu du prompt */
 			scanf(IN_FILT, buffer);
