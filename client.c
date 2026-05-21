@@ -29,7 +29,14 @@ int main(int argc , char *argv[]) {
 	addr.sin_addr.s_addr = inet_addr("169.254.61.46");
 
 
+	int connect_err = connect(sd, (struct sockaddr*)&addr, sizeof(addr));
 
+    if(connect_err < 0){
+        perror("connect");
+        return 1;
+    }
+
+	printf("[CONSOLE] Socket connecté! \n");
 
 
 	/* Ce buffer recevra les messages à transmettre */
