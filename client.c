@@ -141,10 +141,10 @@ int main(int argc , char *argv[]) {
 					struct sockaddr_in addr_UDP_out;
 					addr_UDP.sin_family = AF_INET;
 					addr_UDP.sin_port = htons(5555);
-					addr_UDP.sin_addr.s_addr = inet_addr(*ip_addr_mp);
+					addr_UDP.sin_addr.s_addr = inet_addr(ip_addr_mp);
 
 					
-					int bytes_sent = sendto(sd_UDP_out, *msg_MP, strlen(*msg_MP), 0, (struct sockaddr*)&addr, sizeof(addr));
+					int bytes_sent = sendto(sd_UDP_out, msg_MP, strlen(msg_MP), 0, (struct sockaddr*)&addr, sizeof(addr));
 
 					if(bytes_sent  < 0){
 						perror("sendto");
