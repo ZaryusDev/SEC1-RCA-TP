@@ -68,7 +68,7 @@ int main(int argc , char *argv[]) {
 	int cnt = 0;
 
 	/* Fork: création d'un thread enfant */
-	int pid = fork();
+	int pid= fork();
 	/* Flag pour arrêter le programme */
 	int quit = 0;
 	while(!quit) {
@@ -114,6 +114,24 @@ int main(int argc , char *argv[]) {
 					printf("Erreur : %s", msg_MP);
 				}
 				else if(etat_mp == 1){
+					// On envoie le MP 
+					int sd_UDP_out = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+					struct sockaddr_in addr_UDP_out;
+					addr_UDP.sin_family = AF_INET;
+					addr_UDP.sin_port = htons(5555);
+					addr_UDP.sin_addr.s_addr = inet_addr(*ip_addr_mp);
+
+					
+					int bytes_sent = sendto(sd_UDP_out, *msg_MP, strlen(*msg_MP), 0, (struct sockaddr*)&addr, sizeof(addr));
+
+					if(bytes_sent  < 0){
+						perror("sendto");
+					}
+
+
+
+
 					printf("MP envoyé : %s", msg_MP);
 				}
 				else{
