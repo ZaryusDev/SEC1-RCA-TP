@@ -77,7 +77,7 @@ int main(int argc , char *argv[]) {
 	/* Flag pour arrêter le programme */
 	int quit = 0;
 	while(!quit) {
-		if(pid[0]==0) { // thread enfant
+		if(pid[0]==0 && pid[1] == 0) { // thread enfant
 			/* Fait quelque chose */
 
 			ssize_t lrecv = recv(sd, &buffer, MSG_LEN, 0);
@@ -95,7 +95,7 @@ int main(int argc , char *argv[]) {
 
 
 		} 
-		if(pid[1] == 0){
+		if(pid[1] == 0 && pid[0] != 0){
 			// ENFANT UD
 		
 			socklen_t addrlen = sizeof(addr_UDP);
@@ -112,7 +112,7 @@ int main(int argc , char *argv[]) {
 			}
 		} 
 		
-		if(pid[1] != 0){ // thread parent
+		if(pid[1] != 0 && pid[0] != 0){ // thread parent
 			/* Lie le contenu du prompt */
 			scanf(IN_FILT, buffer);
 			/* Gestion des commandes du prompt */
