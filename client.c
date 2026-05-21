@@ -127,24 +127,24 @@ int main(int argc , char *argv[]) {
 
 			}
 			else {
-				char* ip_addr_mp;
-				char* msg_MP;
+				char ip_addr_mp[50];
+				char msg_MP[MSG_LEN];
 				int etat_mp;
 				etat_mp = parse_mp(buffer, ip_addr_mp, msg_MP);
 				if(etat_mp == -1){
 					printf("Erreur : %s", msg_MP);
 				}
 				else if(etat_mp == 1){
-					// On envoie le MP 
+					// On envoie le MP
 					int sd_UDP_out = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
 					struct sockaddr_in addr_UDP_out;
-					addr_UDP.sin_family = AF_INET;
-					addr_UDP.sin_port = htons(5555);
-					addr_UDP.sin_addr.s_addr = inet_addr(ip_addr_mp);
+					addr_UDP_out.sin_family = AF_INET;
+					addr_UDP_out.sin_port = htons(5555);
+					addr_UDP_out.sin_addr.s_addr = inet_addr(ip_addr_mp);
 
-					
-					int bytes_sent = sendto(sd_UDP_out, msg_MP, strlen(msg_MP), 0, (struct sockaddr*)&addr, sizeof(addr));
+
+					int bytes_sent = sendto(sd_UDP_out, msg_MP, strlen(msg_MP), 0, (struct sockaddr*)&addr_UDP_out, sizeof(addr_UDP_out));
 
 					if(bytes_sent  < 0){
 						perror("sendto");
