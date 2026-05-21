@@ -78,15 +78,21 @@ int main(int argc , char *argv[]) {
 				printf("Au revoir !\n");
 			} else {
 				/* Pas une commande -> on affiche le contenu du prompt */
+				if(buffer != 0){
+					ssize_t send_err = send(sd, &buffer, sizeof(buffer), 0);
 
-				ssize_t send_err = send(sd, &buffer, sizeof(buffer), 0);
+					if(send_err < 0){
+						perror("send");
+						return 1;
+					}
 
-				if(send_err < 0){
-					perror("send");
-					return 1;
+					for(int i = 0; i < MSG_LEN; i++){
+						buffer[i] = "";
+
+					}
 				}
+				
 
-				printf("Vous avez écrit : %s\n", buffer);
 			}
 		}
 	}
