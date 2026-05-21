@@ -87,7 +87,7 @@ int main(int argc , char *argv[]) {
 					}
 
 					for(int i = 0; i < MSG_LEN; i++){
-						buffer[i] = "";
+						buffer[i] = 0;
 
 					}
 				}
