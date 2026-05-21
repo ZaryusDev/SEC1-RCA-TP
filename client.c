@@ -68,14 +68,17 @@ int main(int argc , char *argv[]) {
 	int cnt = 0;
 
 	/* Fork: création d'un thread enfant */
-	int pid= fork();
+	int pid[2] = {0, 0};
+
+	pid[0] = fork();
+	if(pid[0] != 0){
+		pid[1] = fork();
+	}
 	/* Flag pour arrêter le programme */
 	int quit = 0;
 	while(!quit) {
-		if(pid==0) { // thread enfant
+		if(pid[0]==0) { // thread enfant
 			/* Fait quelque chose */
-
-
 
 			ssize_t lrecv = recv(sd, &buffer, MSG_LEN, 0);
 
@@ -91,7 +94,25 @@ int main(int argc , char *argv[]) {
 			}
 
 
-		} else { // thread parent
+		} 
+		if(pid[1] == 0){
+			// ENFANT UD
+		
+			socklen_t addrlen = sizeof(addr_UDP);
+			ssize_t recsize = recvfrom(sd_UDP_in, (void*)buffer, sizeof(buffer), 0, (struct sockaddr*)&addr_UDP, &addrlen);
+			if(recsize == 0){
+				printf("Client deconnecté\n");
+			} else if(recsize < 0){
+				perror("recv");
+			} else {
+
+				buffer[recsize] = '\0';
+				printf("%s \n", buffer);
+
+			}
+		} 
+		
+		if(pid[1] != 0){ // thread parent
 			/* Lie le contenu du prompt */
 			scanf(IN_FILT, buffer);
 			/* Gestion des commandes du prompt */
@@ -129,7 +150,7 @@ int main(int argc , char *argv[]) {
 						perror("sendto");
 					}
 
-
+					close(sd_UDP_out);
 
 
 					printf("MP envoyé : %s", msg_MP);
@@ -146,9 +167,11 @@ int main(int argc , char *argv[]) {
 			}
 		}
 	}
-	if(pid != 0) { // thread parent
+	if(pid[1] != 0) { // thread parent
 		/* Termine le thread enfant */
-		kill(pid, SIGTERM);
+		kill(pid[1], SIGTERM);
+		kill(pid[0], SIGTERM);
+
 	}
 
 	return 0;
