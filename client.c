@@ -42,13 +42,6 @@ int main(int argc , char *argv[]) {
     addr_UDP.sin_port = htons(5555);
     addr_UDP.sin_addr.s_addr = INADDR_ANY;
 
-    int err = bind(sd, (struct sockaddr*)&addr, sizeof(addr));
-    if(err < 0){
-        perror("bind");
-        return 1;
-    }
-	
-	printf("[CONSOLE] Bind TCP \n");
 
 
 	int err_bind_UDP = bind(sd_UDP_in, (struct sockaddr*)&addr_UDP, sizeof(addr_UDP));
