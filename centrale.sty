@@ -1,0 +1,290 @@
+% !TEX encoding = UTF-8 Unicode
+% -*- coding: UTF-8; -*-
+% vim: set fenc=utf-8
+%----- Informations générales
+\NeedsTeXFormat{LaTeX2e}[1999/01/01]
+\ProvidesPackage{centrale}[]
+
+%------------------------------------------ CHARGEMENT DES EXTENSIONS ------------------------------------------%
+
+% -------------  Langue et encodage utilisés ------------- 
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc} % Reconnaissance des lettres du clavier
+\RequirePackage{babel} 
+
+% -------------  Mise en page ------------- 
+\RequirePackage[a4paper]{geometry}	% Mise en page acceptable
+\RequirePackage[final]{microtype} % Pour améliorer la qualité de la lecture avec la microtypotypographie (protrusion et kerning)
+\RequirePackage[pdfencoding=auto,psdextra]{hyperref} % Importer hypertexte avec possibilités de mettre des caractères utf8 dans les métadonnées
+ \hypersetup{pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdfnewwindow=true,      % links in new PDF window
+    pdfcreator={}}
+\newcommand{\reff}[1]{\textbf{\textcolor{CentraleRed}{\textsc{\ref{#1}}}}}  % Pour réaliser des citations potables
+
+% -------------  Mise en page 2 ------------- 
+\RequirePackage{graphicx}	% Pour importer des images
+\RequirePackage{booktabs}	% Pour introduire des tableaux
+\RequirePackage[toc,page]{appendix}	% Pour créer des appendices
+%\RequirePackage[Bjornstrup]{fncychap} % Si on fait un report ou book
+\RequirePackage{lmodern} 
+\RequirePackage{fancyhdr}	% Des titres fouqués
+\RequirePackage{lipsum}		% Mettre du texte lipsum, pour faire une maquette de rapport
+\RequirePackage{framed}		% Des cadres pougnés
+\RequirePackage{bm} % Du texte en gras bien fait
+\RequirePackage{nomencl} % Faire une nomenclature
+\RequirePackage[footnote]{acronym} % Des acronymes accessibles et définissables
+
+% ------------- En-têtes ------------- 
+% On définit ici des en-têtes de page avec titre de la section courante et numéro de page
+\renewcommand{\baselinestretch}{1.05}	
+\setlength{\headheight}{27.06pt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\nouppercase{\thepage}}
+\lhead{\nouppercase{\rightmark}}
+
+% ------------- Images, figures et tables ------------- 
+\RequirePackage{epstopdf} 	% Utiliser le format .eps
+\RequirePackage[pages=some]{background}	% Pour mettre un fond, pages=some permet de choisir les pages concernées
+\RequirePackage{epsfig}	% Convertisseur eps à pdf
+\RequirePackage{float}	% Pour avoir des tableaux qui restent dans leurs sections
+\RequirePackage{graphicx}	% Importer image
+\RequirePackage{array}		% Importer tableau
+\RequirePackage{colortbl}		% Couleurs dans un tableau
+\RequirePackage{array} 		% Pour des tableaux bien formatés
+\RequirePackage{multirow}	 % Fusion des lignes dans les tableaux
+
+% ------------- Des sections et des sous-titres ------------- 
+\RequirePackage{titlesec}	% Macros pour changer le style des titres de section
+\RequirePackage{sectsty}	% Changer le style des sections
+\RequirePackage{caption}	% Macros pour changer le style des titres de figure
+\RequirePackage{subcaption}	% Macros pour changer le style des sous-titres de figure
+
+%% Draft %%
+%\RequirePackage{draftwatermark}
+%\SetWatermarkScale{3}
+
+% ------------- Du dessin et des couleurs ------------- 
+\RequirePackage{xcolor}		% Changer la couleur
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{tikz}		% Pour dessiner
+\RequirePackage{schemabloc}	% Dessiner des schémas-blocs avec tikz
+\RequirePackage[siunitx, american, smartlabels, cute inductors, oldvoltagedirection]{circuitikz}		% Pour dessiner des circuits électroniques
+\usetikzlibrary{babel}		% Pour éviter des conflits entre les paquets tikz et babel
+
+
+% ------------- Des maths et de l'info ------------- 
+\RequirePackage{listings}		% Importer du code informatique et le travailler
+\RequirePackage{amsmath, amssymb, amsfonts, amsthm, mathtools} % mathtools for: Aboxed (put box on last equation in align envirenment)
+\RequirePackage{mathpazo} 	% La police d'écriture utilisée dans tout le document
+\RequirePackage{mathrsfs}	% Pour des lettres (capitales) calligraphiées
+\RequirePackage{siunitx}		% Des unités bien écrites, par exemple pour les valeurs numériques
+\sisetup{locale = FR}		% Pour avoir les bonnes conventions typographiques des unités
+
+% ------------- Une biliographie ------------- 
+\bibliographystyle{plain-fr}	% Biblio en français
+
+
+% ------------- Les options du paquet ------------- 
+\DeclareOption{...}{...}
+\DeclareOption*{\PackageWarning{examplepackage}{Unknown ‘\CurrentOption’}}  % Créer un warning pour signaler que l'option n'existe pas
+\ProcessOptions
+
+
+%------------------------------------------DÉFINITIONS DES COULEURS------------------------------------------%
+
+\definecolor{CentraleRed}{rgb}{0.558, 0.09, 0.18}
+\definecolor{CentraleGray}{rgb}{0.67, 0.67, 0.67}
+\definecolor{CentraleGrayEq}{RGB}{66, 66, 66}
+\definecolor{CentraleGrayLight}{gray}{0.92} 
+\definecolor{CentraleBlue}{RGB}{0, 67, 89}
+\definecolor{matlabGreen}{RGB}{28, 172, 0} % Pour le listing des codes
+\definecolor{matlabLilas}{RGB}{170, 55, 241}
+
+\definecolor{ECNBlue}{RGB}{18, 37, 66}
+
+
+%------------------------------------------SECTIONS, FIGURES ET TABLEAUX------------------------------------------%
+
+\chapterfont{\color{ECNBlue}} % Choisir la couleur des chapitres
+\sectionfont{\color{ECNBlue}\sffamily}  % Choisir la couleur des sections
+\subsectionfont{\color{CentraleGrayEq}\sffamily\itshape}  % Choisir la couleur des sous-sections
+\DeclareCaptionFont{CaptionCentrale}{\color{ECNBlue}}
+\captionsetup[table]{labelfont={CaptionCentrale,bf}}
+\captionsetup[figure]{labelfont={CaptionCentrale,bf}}
+\captionsetup[subfigure]{labelfont=bf,textfont=sf}
+
+
+%------------------------------------------DES CADRES POUR METTRE DE L'EMPHASE------------------------------------------%
+
+
+\newenvironment{cadregris}{ 
+\def\FrameCommand{{\color{CentraleGray}\vrule width 3pt}\colorbox{CentraleGrayLight}}% 
+\MakeFramed {\advance\hsize-\width \FrameRestore}}% 
+{\endMakeFramed}
+
+
+%------------------------------------------RACCOURCIS   MATHEMATIQUES------------------------------------------%
+
+%------- Dérivation et opérateurs
+
+\newcommand{\grs}[1] {\mathrm{#1}}
+\newcommand{\ud}{\ensuremath{\, \mathrm{d}}}
+\newcommand{\eqdef}{\stackrel{\mathrm{def}}{=}}
+
+\newcommand{\subt}[1] {\ensuremath{_{\text{#1}}}}
+\newcommand{\supt}[1] {\ensuremath{^{\text{#1}}}}
+\newcommand{\citea}[1] {$^{\text{\cite{#1}}}$}
+\newcommand{\grad}[1] {\vec{\grs{grad}}\left( #1 \right)}
+\newcommand{\rot}[1] {\vec{\grs{rot}}\left( \vec{#1} \right)}
+\newcommand{\rota}[1] {\vec{\grs{rot}}\left( #1 \right)}
+\renewcommand{\div}[1] {\grs{div}\left( \vec{#1} \right)}
+\newcommand{\diva}[1] {\grs{div}\left( #1 \right)}
+\newcommand{\oper}[3] {\langle #1 \arrowvert #2 \arrowvert #3 \rangle}
+\newcommand{\derp}[2] {\dfrac{\partial\, #1}{\partial\, #2}}
+\newcommand{\derd}[2] {\dfrac{\grs{d}\, #1}{\grs{d}\, #2}}
+\newcommand{\derD}[2] {\dfrac{\grs{D}\, #1}{\grs{D}\, #2}}
+\newcommand{\derda}[2] {\dfrac{\grs{d}^2\, #1}{\grs{d} #2^2}}
+\newcommand{\derdb}[2] {\dfrac{\grs{d}^2\, #1}{\grs{d} #2 ^2}}
+\newcommand{\derpb}[2] {\dfrac{\partial^2\, #1}{\partial #2 ^2}}
+\newcommand{\bra}[1] {\langle #1 |}
+\newcommand{\ket}[1] {| #1 \rangle}
+\newcommand{\bracket}[1] {\langle #1 \rangle}
+\newcommand{\bracketb}[2] {\langle #1 \arrowvert #2 \rangle}
+\newcommand{\bracketc}[1] {\langle #1 \arrowvert #1 \rangle}
+
+%------- Lettres grecques disponibles dans le texte
+
+\newcommand{\ttt} {\ensuremath{\forall}}
+\newcommand{\alphat} {\ensuremath{\alpha}}
+\newcommand{\betat} {\ensuremath{\beta}}
+\newcommand{\taut} {\ensuremath{\tau}}
+\newcommand{\nut} {\ensuremath{\nu}}
+\newcommand{\varepsilont} {\ensuremath{\varepsilon}}
+\newcommand{\epsilont} {\ensuremath{\varepsilon}}
+\newcommand{\omegat} {\ensuremath{\omega}}
+\newcommand{\phit} {\ensuremath{\varphi}}
+\newcommand{\deltat} {\ensuremath{\delta}}
+\newcommand{\Deltat} {\ensuremath{\Delta}}
+\newcommand{\thetat} {\ensuremath{\theta}}
+\newcommand{\sigmat} {\ensuremath{\sigma}}
+\newcommand{\pit} {\ensuremath{\pi} }
+\newcommand{\chit} {\ensuremath{\chi}}
+\newcommand{\mut} {\ensuremath{\mu}}
+\newcommand{\lambdat} {\ensuremath{\lambda}}
+\newcommand{\rhot} {\ensuremath{\rho}}
+\newcommand{\kappat} {\ensuremath{\kappa}}
+\newcommand{\gammat} {\ensuremath{\gamma}}
+\newcommand{\etat} {\ensuremath{\eta}}
+
+
+
+%------- Raccourcis du turfu
+
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vr}{\overrightarrow}
+
+%------- Notation des ensembles
+
+\newcommand{\Lesp}[1] {\ensuremath{\mathrm{L}^{#1}}}	 % Pour composer les espace L^p
+\newcommand{\A} {\ensuremath{\mathcal{A}}}
+\newcommand{\R} {\ensuremath{\mathbb{R}}}
+\newcommand{\CC} {\ensuremath{\mathbb{C}}}
+\newcommand{\N} {\ensuremath{\mathbb{N}}}
+\newcommand{\K} {\ensuremath{\mathbb{K}}}
+\newcommand{\Lens} {\mathcal{L}} % Lens pour "l'ENSemble L" 
+\newcommand{\Pens} {\mathcal{P}} % Pareil pour P
+\newcommand{\M} {\ensuremath{\mathcal{M}}}
+\newcommand{\B} {\ensuremath{\mathcal{B}}}
+\newcommand{\dom} {\ensuremath{\mathcal{D}}}
+\newcommand{\surf} {\ensuremath{\mathcal{S}}}
+\newcommand{\cont} {\ensuremath{\mathcal{C}}}
+
+
+%------- Abréviations, langages et programme utiles
+
+\newcommand{\ecl}{l'École centrale de Lyon}
+\newcommand{\matlab}{\textsc{Matlab}}
+\newcommand{\python}{\emph{python}}
+
+
+%------- Fonctions de traitement du signal
+
+\DeclareMathOperator{\sinc} {sinc}
+\DeclareMathOperator{\sgn} {\text{sgn}}
+\DeclareMathOperator*{\argmax} {argmax}
+\DeclareMathOperator*{\argmin} {argmin}
+\newcommand{\vect} {\text{Vect}}
+\newcommand{\esp} {\ensuremath{\mathbb{E}}}
+\newcommand{\hilbert} {\ensuremath{\mathcal{H}}}
+\newcommand{\fourier} {\ensuremath{\mathcal{F}}}
+
+% Ces 4 lignes définissent la lettre sha pour le peigne de Dirac (et pas le vieux "Pgn" comme "pougne")
+\DeclareFontFamily{U} {wncy}{}
+\DeclareFontShape{U} {wncy}{m}{n}{<->wncyr10}{}
+\DeclareSymbolFont{mcy} {U}{wncy}{m}{n}
+\DeclareMathSymbol{\Sh} {\mathord}{mcy}{"58} 
+
+%------- Autres
+
+
+%------------------------------------------METTRE DU CODE INFORMATIQUE------------------------------------------%
+
+\lstset{language=python,%
+    basicstyle=\footnotesize,
+    breaklines=false,%,
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{CentraleRed},
+    commentstyle=\color{CentraleGray},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\lstset{language=Matlab,                        % Use MATLAB
+    frame=single,                           % Single frame around code
+    basicstyle=\small\ttfamily,             % Use small true type font
+    keywordstyle=[1]\color{blue}\bfseries,        % MATLAB functions bold and blue
+    keywordstyle=[2]\color{matlabLilas},         % MATLAB function arguments purple
+    keywordstyle=[3]\color{blue}\underbar,  % User functions underlined and blue
+    identifierstyle=,                       % Nothing special about identifiers
+                                            % Comments small green courier
+    commentstyle=\usefont{T1}{pcr}{m}{sl}\color{matlabGreen}\small,
+    stringstyle=\color{matlabLilas},             % Strings are purple
+    breaklines=true,
+    showstringspaces=false,                 % Don't put marks in string spaces
+    tabsize=5,                              % 5 spaces per tab
+    title=\lstname,
+    framextopmargin=2pt,
+    framexbottommargin=2pt,
+    %
+    %%% Put standard MATLAB functions not included in the default
+    %%% language here
+    morekeywords={xlim,ylim,var,alpha,factorial,poissrnd,normpdf,normcdf},
+    %
+    %%% Put MATLAB function parameters here
+    morekeywords=[2]{on, off, interp},
+    %
+    %%% Put user defined functions here
+    morekeywords=[3]{FindESS, homework_example},
+    %
+    morecomment=[l][\color{blue}]{...},     % Line continuation (...) like blue comment
+    numbers=left,                           % Line numbers on left
+    firstnumber=1,                          % Line numbers start with line 1
+    numberstyle=\tiny\color{CentraleRed},          % Line numbers are blue
+    stepnumber=5                            % Line numbers go in steps of 5
+}
+
+
+
+%----- Fin du paquet
+\endinput
